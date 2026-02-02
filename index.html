@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Love ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+body{background:#fff;overflow:hidden}
+
+/* HEART RAIN */
+.heart{
+  position:fixed;
+  font-size:18px;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  from{transform:translateY(-10vh);opacity:1}
+  to{transform:translateY(110vh);opacity:0}
+}
+
+/* PAGES */
+.page{
+  display:none;
+  height:100vh;
+  padding:24px;
+  text-align:center;
+  opacity:0;
+  transform:scale(0.95);
+  transition:0.7s;
+}
+.page.active{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  opacity:1;
+  transform:scale(1);
+}
+
+h1,h2{color:#e6004c;margin-bottom:15px}
+p{color:#444;font-size:16px;line-height:1.9}
+
+/* BUTTONS */
+.btn,.yes-btn{
+  margin-top:25px;
+  padding:14px 34px;
+  border:none;
+  border-radius:30px;
+  background:#e6004c;
+  color:white;
+  font-size:16px;
+}
+.yes-btn{
+  font-size:22px;
+  padding:18px 44px;
+  animation:pulse 1.5s infinite;
+}
+@keyframes pulse{50%{transform:scale(1.1)}}
+
+/* CAKE */
+.cake{width:200px;height:120px;background:#ffc0cb;border-radius:12px;position:relative}
+.candle{width:12px;height:45px;background:white;position:absolute;top:-45px;left:94px}
+.flame{
+  width:16px;height:16px;background:orange;border-radius:50%;
+  position:absolute;top:-16px;left:-2px;
+  animation:flicker .5s infinite
+}
+@keyframes flicker{50%{opacity:.5}}
+
+/* CARDS */
+.card{
+  background:#ffe6ef;
+  border-radius:18px;
+  padding:18px;
+  margin:10px 0;
+  width:90%;
+}
+
+/* GAME */
+#gameArea{width:100%;height:60vh;position:relative;overflow:hidden}
+.tap{
+  position:absolute;
+  font-size:30px;
+  animation:drop 4s linear forwards;
+}
+@keyframes drop{to{top:110%}}
+
+/* BURST */
+.burst{
+  position:fixed;
+  font-size:24px;
+  animation:burst 1.2s forwards;
+}
+@keyframes burst{
+  to{opacity:0;transform:translate(var(--x),var(--y))}
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <h1>🎁 Cute Surprise 💖</h1>
+  <p>
+    Hey you…  
+    pause for a second 💙  
+    <br><br>
+    I made something special,  
+    just for you.
+  </p>
+  <button class="btn" onclick="nextPage()">Open Surprise ✨</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <h2>💗 Before Anything Else…</h2>
+  <p>
+    I want you to know this —  
+    you are deeply loved,  
+    appreciated, and cherished.
+    <br><br>
+    And today… this is all for you.
+  </p>
+  <button class="btn" onclick="nextPage()">Continue 💌</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <h2>🎂 Happy Birthday My Love ❤️</h2>
+  <p>Close your eyes, make a wish, and blow the candle 🕯️</p>
+  <div class="cake">
+    <div class="candle" onclick="blow()">
+      <div class="flame" id="flame"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+  <h2>💌 Little Things I Love About You</h2>
+  <div class="card">You make my heart feel calm</div>
+  <div class="card">You understand me without words</div>
+  <div class="card">You feel like home, even from far away</div>
+  <button class="btn" onclick="nextPage()">Let’s Play 🎮</button>
+</div>
+
+<!-- PAGE 5 GAME -->
+<div class="page" id="p5">
+  <h2>💗 Birthday Game</h2>
+  <p>Catch 10 hearts to continue</p>
+  <h3>Score: <span id="score">0</span></h3>
+  <div id="gameArea"></div>
+</div>
+
+<!-- PAGE 6 PROPOSAL -->
+<div class="page" id="p6">
+  <h1>💝 One Question…</h1>
+  <p>
+    Distance may keep us apart,  
+    but it has never changed how I feel.
+    <br><br>
+    I don’t promise perfection,  
+    but I promise love, effort, and honesty.
+  </p>
+  <h2>Will you keep choosing me? ❤️</h2>
+  <button class="yes-btn" onclick="sayYes()">YES 💗</button>
+
+  <div id="yesMsg" style="display:none">
+    <h2>🥹 My Heart Is Full</h2>
+    <p>You mean everything to me 💙</p>
+  </div>
+</div>
+
+<!-- PAGE 7 FINAL -->
+<div class="page" id="p7">
+  <h1>🎂 Happy Birthday My Love ❤️</h1>
+  <p>
+    Even though we’re miles apart today,  
+    my heart is celebrating right next to yours.
+    <br><br>
+    Distance has taught me something beautiful —  
+    love isn’t about being close,  
+    it’s about choosing each other,  
+    every single day.
+    <br><br>
+    I miss you in the quiet moments,  
+    I feel you in every heartbeat,  
+    and I carry you with me everywhere I go.
+    <br><br>
+    Until the day I can celebrate your birthday  
+    holding your hand instead of a screen,  
+    know this —  
+    my love for you has no distance.
+  </p>
+  <h2>💙 Always yours. Always us. 💙</h2>
+</div>
+
+<script>
+let page=1,score=0,interval;
+
+/* PAGE CONTROL */
+function nextPage(){
+  document.getElementById("p"+page).classList.remove("active");
+  page++;
+  document.getElementById("p"+page).classList.add("active");
+  if(page===5)startGame();
+}
+
+/* CAKE */
+function blow(){
+  document.getElementById("flame").style.display="none";
+  setTimeout(nextPage,1000);
+}
+
+/* GAME */
+function startGame(){
+  score=0;
+  interval=setInterval(()=>{
+    let t=document.createElement("div");
+    t.className="tap";
+    t.innerHTML="❤️";
+    t.style.left=Math.random()*90+"vw";
+    t.onclick=()=>{
+      score++;
+      document.getElementById("score").innerText=score;
+      t.remove();
+      if(score>=10){
+        clearInterval(interval);
+        nextPage();
+      }
+    };
+    document.getElementById("gameArea").appendChild(t);
+    setTimeout(()=>t.remove(),4000);
+  },700);
+}
+
+/* YES */
+function sayYes(){
+  document.querySelector(".yes-btn").style.display="none";
+  document.getElementById("yesMsg").style.display="block";
+
+  for(let i=0;i<30;i++){
+    let b=document.createElement("div");
+    b.className="burst";
+    b.innerHTML="💗";
+    b.style.left="50vw";
+    b.style.top="50vh";
+    b.style.setProperty("--x",(Math.random()*300-150)+"px");
+    b.style.setProperty("--y",(Math.random()*300-150)+"px");
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),1200);
+  }
+
+  setTimeout(()=>{
+    document.getElementById("p6").classList.remove("active");
+    document.getElementById("p7").classList.add("active");
+  },2500);
+}
+
+/* HEART RAIN */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML=Math.random()>0.5?"💗":"💙";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(4+Math.random()*4)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),8000);
+},350);
+</script>
+
+</body>
+</html>
